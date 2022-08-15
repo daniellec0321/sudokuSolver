@@ -8,8 +8,7 @@
 #include <vector>
 #include <fstream>
 
-#define ROWS 9
-#define COLS 9
+#define SIZE 9
 #define COUT std::cout
 #define CIN std::cin
 #define ENDL std::endl
