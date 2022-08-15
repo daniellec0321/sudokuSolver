@@ -4,9 +4,7 @@
  * Date Created: 2/23/22
  * File contents: the main file for PC05 */
 
-#include "../include/sudoku.h"
-
-
+#include "../include/sfunc.h"
 
 int main(const int argc, const char *argv[])
 {

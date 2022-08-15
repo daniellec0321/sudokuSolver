@@ -6,7 +6,7 @@
 
 
 
-#include "../include/sudoku.h"
+#include "../include/sfunc.h"
 
 
 

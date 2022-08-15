@@ -1,14 +1,8 @@
-# Author: Danielle Croft
-# E-mail: dcroft@nd.edu
-# File name: Makefile
-# Date Created: 2/23/22
-# File contents: This is the Makefile for Programming Challenge 05
-
 # g++ is for the GCC compiler for C++
 CC := g++
 
-# CFLAGS are the compiler flags for when we compile C++ code in this course
-FLAGS := -O2 -g -Wall -Wextra -Wconversion -Wshadow -Werror -lm
+# Flags for compiling
+FLAGS := -O2 -g -Wall -Wextra -Wconversion -Wshadow -lm
 CXXFLAGS := -m64 -std=c++11 $(FLAGS)
 
 # Folder Variables
@@ -23,19 +17,20 @@ initialize:
 	mkdir $(OBJ) $(EXE)
 
 # on make, create object file for sudoku.cpp in objects folder (Singly Linked List Object)
-$(OBJ)/sudoku.o: $(SRC)/sudoku.cpp $(INC)/sudoku.h
-	$(CC) $(CXXFLAGS) -c $(SRC)/sudoku.cpp -o $@
+$(OBJ)/sfunc.o: $(SRC)/sfunc.cpp $(INC)/sfunc.h
+	$(CC) $(CXXFLAGS) -c $(SRC)/sfunc.cpp -o $@
 
 # on make, create object file for PC05.cpp in objects folder
-$(OBJ)/PC05.o: $(SRC)/PC05.cpp $(INC)/sudoku.h
-	$(CC) $(CXXFLAGS) -c $(SRC)/PC05.cpp -o $@
+# might have problem with SRC/sudokuSolver, maybe switch
+$(OBJ)/sudokuSolver.o: $(SRC)/sudokuSolver.cpp $(INC)/sfunc.h
+	$(CC) $(CXXFLAGS) -c $(SRC)/sudokuSolver.cpp -o $@
 
 # Create variables for all objects
-PC05_objs := $(OBJ)/sudoku.o $(OBJ)/PC05.o
+sudokuSolver_objs := $(OBJ)/sfunc.o $(OBJ)/sudokuSolver.o
 
 # Singly Linked List Executable and Run
-PC05: $(PC05_objs)
-	$(CC) $(CXXFLAGS) -o $(EXE)/PC05 $(PC05_objs)
+sudokuSolver: $(sudokuSolver_objs)
+	$(CC) $(CXXFLAGS) -o $(EXE)/sudokuSolver $(sudokuSolver_objs)
 
 # Make clean
 clean:
