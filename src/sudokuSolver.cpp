@@ -24,6 +24,9 @@ int main(const int argc, const char *argv[]) {
 	OFSTREAM sudoku_outfile;
 	sudoku_outfile.open(argv[2]);
 
+    // Print warning to user
+    warning();
+
 	// initializing sudoku board
 	VECTOR< VECTOR<int> > sudoku;
 
@@ -39,10 +42,12 @@ int main(const int argc, const char *argv[]) {
 	recursive_solver(sudoku, 0, 0);
 
 	// figuring out if puzzle is solvable
-	if (check_puzzle(sudoku)) 
+	if (check_puzzle(sudoku)) { 
 		COUT << ENDL << "Solved puzzle:" << ENDL;
-	else 
-		COUT << ENDL << "Puzzle is not solvable." << ENDL;
+    } else {
+		COUT << ENDL << "Puzzle is not solvable." << ENDL << ENDL;
+        return EXIT_FAILURE;
+    }
 
 	// print puzzle to terminal
 	print_puzzle(sudoku);

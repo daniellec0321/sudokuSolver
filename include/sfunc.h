@@ -7,6 +7,8 @@
 #include <cstdlib>
 #include <vector>
 #include <fstream>
+#include <stdlib.h>
+#include <unistd.h>
 
 #define SIZE 9
 #define COUT std::cout
@@ -16,8 +18,8 @@
 #define IFSTREAM std::ifstream
 #define OFSTREAM std::ofstream
 
-// prints a greeting to the user
-void greeting(void);
+// prints a warning to the user
+void warning(void);
 
 // fills a vector with zeroes
 void fill_vector(VECTOR< VECTOR<int> >& sudoku);

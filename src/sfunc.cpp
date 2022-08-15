@@ -2,6 +2,15 @@
 
 #include "../include/sfunc.h"
 
+// print a timing warning to the reader
+void warning(void) {
+
+    COUT << ENDL << "Depending on the puzzle, the solver may take a couple of minutes." << ENDL;
+
+    return;
+
+}
+
 // fill an empty vector with zeroes
 void fill_vector(VECTOR< VECTOR<int> >& sudoku) {
 
@@ -234,6 +243,11 @@ bool recursive_solver(VECTOR< VECTOR<int> >& sudoku, long unsigned int row, long
 
 		// set the sudoku board equal to the sentinel
 		update_puzzle(sudoku, sentinel, row, col);
+
+        // sleep for some microseconds
+        /* usleep(100);
+        system("clear");
+        print_puzzle(sudoku); */
 
 		// if both the guess and the recursive call are true
 		if (guess_result && recursive_solver(sudoku, row, col))
