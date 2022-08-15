@@ -1,35 +1,31 @@
-/* Name: Danielle Croft
- * Email: dcroft@nd.edu
- * File name: PC05.cpp
- * Date Created: 2/23/22
- * File contents: the main file for PC05 */
+// main file for the sudokuSolver
 
 #include "../include/sfunc.h"
 
-int main(const int argc, const char *argv[])
-{
+int main(const int argc, const char *argv[]) {
+
 	// if user entered incorrect amount of inputs
 	if (argc != 3) {
 		COUT << "Incorrect number of inputs." << ENDL;
 		return EXIT_FAILURE;
 	}
 
-	// initializing the streams
+	// initializing reading streams
 	IFSTREAM sudoku_infile;
 	sudoku_infile.open(argv[1]);
-	if (sudoku_infile == NULL) {
-		COUT << "File does not exist" << ENDL;
-		return EXIT_FAILURE;
-	}
 
+    // testing if file exists
+    if (sudoku_infile.fail()) {
+        COUT << "File does not exist" << ENDL;
+        return EXIT_FAILURE;
+    }
+
+    // initializing writing streams
 	OFSTREAM sudoku_outfile;
 	sudoku_outfile.open(argv[2]);
 
 	// initializing sudoku board
 	VECTOR< VECTOR<int> > sudoku;
-
-	// greeting the user
-	greeting();
 
 	// filling the sudoku board
 	fill_vector(sudoku);
@@ -43,11 +39,10 @@ int main(const int argc, const char *argv[])
 	recursive_solver(sudoku, 0, 0);
 
 	// figuring out if puzzle is solvable
-	if (check_puzzle(sudoku)) {
+	if (check_puzzle(sudoku)) 
 		COUT << ENDL << "Solved puzzle:" << ENDL;
-	} else {
+	else 
 		COUT << ENDL << "Puzzle is not solvable." << ENDL;
-	}
 
 	// print puzzle to terminal
 	print_puzzle(sudoku);
@@ -57,4 +52,5 @@ int main(const int argc, const char *argv[])
 	print_puzzle_to_file(sudoku_outfile, sudoku);
 
 	return EXIT_SUCCESS;
+
 }

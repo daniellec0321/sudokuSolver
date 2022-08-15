@@ -1,8 +1,4 @@
-/* Name: Danielle Croft
- * Email: dcroft@nd.edu
- * File name: sudoku.h
- * Date created: 2/23/22
- * File contents: These are the function declarations for PC05 */
+// Function declarations for sudokuSolver
 
 #ifndef SFUNC_H
 #define SFUNC_H

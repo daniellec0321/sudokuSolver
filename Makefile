@@ -16,12 +16,11 @@ initialize:
 	rm -rf $(OBJ) $(EXE)
 	mkdir $(OBJ) $(EXE)
 
-# on make, create object file for sudoku.cpp in objects folder (Singly Linked List Object)
+# on make, create object file for sfunc.cpp in objects folder
 $(OBJ)/sfunc.o: $(SRC)/sfunc.cpp $(INC)/sfunc.h
 	$(CC) $(CXXFLAGS) -c $(SRC)/sfunc.cpp -o $@
 
-# on make, create object file for PC05.cpp in objects folder
-# might have problem with SRC/sudokuSolver, maybe switch
+# on make, create object file for sudokuSolver.cpp in objects folder
 $(OBJ)/sudokuSolver.o: $(SRC)/sudokuSolver.cpp $(INC)/sfunc.h
 	$(CC) $(CXXFLAGS) -c $(SRC)/sudokuSolver.cpp -o $@
 
@@ -35,5 +34,3 @@ sudokuSolver: $(sudokuSolver_objs)
 # Make clean
 clean:
 	rm -rf $(OBJ)/* $(EXE)/*
-
-
