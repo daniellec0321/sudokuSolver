@@ -7,11 +7,9 @@ SRC := src
 OBJ := objects
 EXE := exe
 
-# Make initialize - Create the objects and executables
-initialize: ; rm -rf $(OBJ) $(EXE) ; mkdir $(OBJ) $(EXE)
-
 # On make, create objects and executables
-sudokuSolver: ; g++ $(FLAGS) -c $(SRC)/sfunc.cpp -o $(OBJ)/sfunc.o ; g++ $(FLAGS) -c $(SRC)/sudokuSolver.cpp -o $(OBJ)/sudokuSolver.o ; g++ $(FLAGS) -o $(EXE)/sudokuSolver $(OBJ)/sfunc.o $(OBJ)/sudokuSolver.o
+# This creates a folder to put the object files, and then once the executable is made, deletes the object folder
+all: ; rm -rf $(EXE) ; mkdir $(OBJ) $(EXE) ; g++ $(FLAGS) -c $(SRC)/sfunc.cpp -o $(OBJ)/sfunc.o ; g++ $(FLAGS) -c $(SRC)/sudokuSolver.cpp -o $(OBJ)/sudokuSolver.o ; g++ $(FLAGS) -o $(EXE)/sudokuSolver $(OBJ)/sfunc.o $(OBJ)/sudokuSolver.o ; rm -rf $(OBJ)
 
 # Clean the objects and executables
-clean: ; rm -rf $(OBJ)/* $(EXE)/*
+clean: ; rm -rf $(EXE)

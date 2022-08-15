@@ -2,6 +2,8 @@
 
 #include "../include/sfunc.h"
 
+
+
 int main(const int argc, const char *argv[]) {
 
 	// if user entered incorrect amount of inputs
@@ -19,10 +21,6 @@ int main(const int argc, const char *argv[]) {
         COUT << "File does not exist" << ENDL;
         return EXIT_FAILURE;
     }
-
-    // initializing writing streams
-	OFSTREAM sudoku_outfile;
-	sudoku_outfile.open(argv[2]);
 
     // Print warning to user
     warning();
@@ -44,12 +42,11 @@ int main(const int argc, const char *argv[]) {
         return EXIT_FAILURE;
     }
 
-	// solve the puzzle
-	recursive_solver(sudoku, 0, 0);
-
-	// figuring out if puzzle is solvable
-	if (check_puzzle(sudoku)) { 
+	// Solving the puzzle
+	if (recursive_solver(sudoku, 0, 0)) { 
 		COUT << ENDL << "Solved puzzle:" << ENDL;
+
+    // puzzle is not solvable
     } else {
 		COUT << ENDL << "Puzzle is not solvable." << ENDL << ENDL;
         return EXIT_FAILURE;
@@ -58,6 +55,10 @@ int main(const int argc, const char *argv[]) {
 	// print puzzle to terminal
 	print_puzzle(sudoku);
 	COUT << ENDL;
+
+    // initializing writing streams
+	OFSTREAM sudoku_outfile;
+	sudoku_outfile.open(argv[2]);
 
 	// print puzzle to file
 	print_puzzle_to_file(sudoku_outfile, sudoku);

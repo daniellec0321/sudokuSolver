@@ -29,10 +29,7 @@ bool check_integrity(const VECTOR< VECTOR<int> > sudoku);
 void print_puzzle(const VECTOR< VECTOR<int> > sudoku);
 
 // checking if a number can be placed in a certain spot
-bool check_guess(const VECTOR< VECTOR<int> > sudoku, int value, int valRow, int valCol);
-
-// check if a puzzle is complete or not
-bool check_puzzle(const VECTOR< VECTOR<int> > sudoku);
+bool check_guess(const VECTOR< VECTOR<int> > sudoku, const int value, const int valRow, const int valCol);
 
 // solves puzzle recursively
 bool recursive_solver(VECTOR< VECTOR<int> >& sudoku, int row, int col);
