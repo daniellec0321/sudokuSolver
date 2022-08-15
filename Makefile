@@ -1,9 +1,5 @@
-# g++ is for the GCC compiler for C++
-CC := g++
-
-# Flags for compiling
-FLAGS := -O2 -g -Wall -Wextra -Wconversion -Wshadow -lm
-CXXFLAGS := -m64 -std=c++11 $(FLAGS)
+# Compiler flags
+FLAGS := -m64 -std=c++11 -O2 -g -Wall -Wextra -Wconversion -Wshadow -Werror -lm
 
 # Folder Variables
 INC := include
@@ -12,25 +8,10 @@ OBJ := objects
 EXE := exe
 
 # Make initialize - Create the objects and executables
-initialize:
-	rm -rf $(OBJ) $(EXE)
-	mkdir $(OBJ) $(EXE)
+initialize: ; rm -rf $(OBJ) $(EXE) ; mkdir $(OBJ) $(EXE)
 
-# on make, create object file for sfunc.cpp in objects folder
-$(OBJ)/sfunc.o: $(SRC)/sfunc.cpp $(INC)/sfunc.h
-	$(CC) $(CXXFLAGS) -c $(SRC)/sfunc.cpp -o $@
+# On make, create objects and executables
+sudokuSolver: ; g++ $(FLAGS) -c $(SRC)/sfunc.cpp -o $(OBJ)/sfunc.o ; g++ $(FLAGS) -c $(SRC)/sudokuSolver.cpp -o $(OBJ)/sudokuSolver.o ; g++ $(FLAGS) -o $(EXE)/sudokuSolver $(OBJ)/sfunc.o $(OBJ)/sudokuSolver.o
 
-# on make, create object file for sudokuSolver.cpp in objects folder
-$(OBJ)/sudokuSolver.o: $(SRC)/sudokuSolver.cpp $(INC)/sfunc.h
-	$(CC) $(CXXFLAGS) -c $(SRC)/sudokuSolver.cpp -o $@
-
-# Create variables for all objects
-sudokuSolver_objs := $(OBJ)/sfunc.o $(OBJ)/sudokuSolver.o
-
-# Singly Linked List Executable and Run
-sudokuSolver: $(sudokuSolver_objs)
-	$(CC) $(CXXFLAGS) -o $(EXE)/sudokuSolver $(sudokuSolver_objs)
-
-# Make clean
-clean:
-	rm -rf $(OBJ)/* $(EXE)/*
+# Clean the objects and executables
+clean: ; rm -rf $(OBJ)/* $(EXE)/*

@@ -35,9 +35,9 @@ bool check_guess(const VECTOR< VECTOR<int> > sudoku, int value, int valRow, int 
 bool check_puzzle(const VECTOR< VECTOR<int> > sudoku);
 
 // solves puzzle recursively
-bool recursive_solver(VECTOR< VECTOR<int> >& sudoku, long unsigned int row, long unsigned int col);
+bool recursive_solver(VECTOR< VECTOR<int> >& sudoku, int row, int col);
 
 // print a puzzle to a file
-void print_puzzle_to_file(OFSTREAM& sudoku_outfile, const VECTOR< VECTOR<int> >& sudoku);
+void print_puzzle_to_file(OFSTREAM& sudoku_outfile, const VECTOR< VECTOR<int> > sudoku);
 
 #endif

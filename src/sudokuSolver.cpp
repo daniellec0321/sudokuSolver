@@ -40,7 +40,7 @@ int main(const int argc, const char *argv[]) {
 
     // checking integrity of original board
     if (!check_integrity(sudoku)) {
-        COUT << ENDL << "Puzzle is not solvable." << ENDL << ENDL;
+        COUT << ENDL << "Not a valid sudoku puzzle." << ENDL << ENDL;
         return EXIT_FAILURE;
     }
 

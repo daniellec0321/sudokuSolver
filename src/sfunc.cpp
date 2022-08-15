@@ -193,16 +193,18 @@ bool check_puzzle(const VECTOR< VECTOR<int> > sudoku) {
 
 
 // solves the puzzle recursively
-bool recursive_solver(VECTOR< VECTOR<int> >& sudoku, long unsigned int row, long unsigned int col) {
+bool recursive_solver(VECTOR< VECTOR<int> >& sudoku, int row, int col) {
 
 	// iterate to a 0
 	while (1) {
 
 		// if zero has been found
-		if (sudoku.at(row).at(col) == 0) break;
+		if (sudoku[row][col] == 0) break;
 
 		// iterate to next box
 		col++;
+        
+        // check limits
 		if (col >= SIZE) {
 			col = 0;
 			row++;
@@ -214,15 +216,14 @@ bool recursive_solver(VECTOR< VECTOR<int> >& sudoku, long unsigned int row, long
 
 	}
 
-	// zero has been found - iterate through sentinel
-	int sentinel;
-	for (sentinel=1; sentinel<=SIZE; sentinel++) {
+	// zero has been found - iterate through possible values
+	for (int sentinel=1; sentinel<=SIZE; sentinel++) {
 
 		// test the guess here
 		bool guess_result = check_guess(sudoku, sentinel, row, col);
 
 		// set the sudoku board equal to the sentinel
-        sudoku.at(row).at(col) = sentinel;
+        sudoku[row][col] = sentinel;
 
 		// if both the guess and the recursive call are true
 		if (guess_result && recursive_solver(sudoku, row, col)) 
@@ -241,7 +242,7 @@ bool recursive_solver(VECTOR< VECTOR<int> >& sudoku, long unsigned int row, long
 
 
 // prints puzzle to a file
-void print_puzzle_to_file(OFSTREAM& sudoku_outfile, const VECTOR< VECTOR<int> >& sudoku) {
+void print_puzzle_to_file(OFSTREAM& sudoku_outfile, const VECTOR< VECTOR<int> > sudoku) {
 
 	// for loop to print row by row of sudoku board
 	for (int row=0; row<SIZE; row++) {
@@ -249,7 +250,7 @@ void print_puzzle_to_file(OFSTREAM& sudoku_outfile, const VECTOR< VECTOR<int> >&
 		for (int col=0; col<SIZE; col++) {
 
 			// printing number and whitespace
-			sudoku_outfile << sudoku.at(row).at(col) << " ";
+			sudoku_outfile << sudoku[row][col] << " ";
 
 		}
 
