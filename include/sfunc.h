@@ -7,8 +7,6 @@
 #include <cstdlib>
 #include <vector>
 #include <fstream>
-#include <stdlib.h>
-#include <unistd.h>
 
 #define SIZE 9
 #define COUT std::cout
@@ -21,23 +19,20 @@
 // prints a warning to the user
 void warning(void);
 
-// fills a vector with zeroes
-void fill_vector(VECTOR< VECTOR<int> >& sudoku);
-
 // reads a file and creates sudoku board
-void populate_puzzle(IFSTREAM& sudoku_infile, VECTOR< VECTOR<int> >& sudoku);
+void read_puzzle(IFSTREAM& sudoku_infile, VECTOR< VECTOR<int> >& sudoku);
+
+// checks the integrity of the given sudoku board
+bool check_integrity(const VECTOR< VECTOR<int> > sudoku);
 
 // prints a given sudoku puzzle to the terminal
-void print_puzzle(const VECTOR< VECTOR<int> >& sudoku);
-
-// updates a value at the puzzle
-void update_puzzle(VECTOR< VECTOR<int> >& sudoku, int value, long unsigned int row, long unsigned int col);
+void print_puzzle(const VECTOR< VECTOR<int> > sudoku);
 
 // checking if a number can be placed in a certain spot
-bool check_guess(const VECTOR< VECTOR<int> >& sudoku, int value, long unsigned int row, long unsigned int col);
+bool check_guess(const VECTOR< VECTOR<int> > sudoku, int value, int valRow, int valCol);
 
 // check if a puzzle is complete or not
-bool check_puzzle(const VECTOR< VECTOR<int> >& sudoku);
+bool check_puzzle(const VECTOR< VECTOR<int> > sudoku);
 
 // solves puzzle recursively
 bool recursive_solver(VECTOR< VECTOR<int> >& sudoku, long unsigned int row, long unsigned int col);

@@ -11,38 +11,10 @@ void warning(void) {
 
 }
 
-// fill an empty vector with zeroes
-void fill_vector(VECTOR< VECTOR<int> >& sudoku) {
-
-	// initializing iteration variables
-	int row, column;
-
-	// iterating through vector
-	for (row=0; row<SIZE; row++) {
-
-		// creating inner vector
-		VECTOR<int> vtemp;
-
-		for (column=0; column<SIZE; column++) {
-
-			// placing the zero
-			vtemp.push_back(0);
-
-		}
-
-		// placing vector into vector array
-		sudoku.push_back(vtemp);
-
-	}
-
-	return;
-
-}
-
 
 
 // reads a file stream and creates the sudoku board
-void populate_puzzle(IFSTREAM& sudoku_infile, VECTOR< VECTOR<int> >& sudoku) {
+void read_puzzle(IFSTREAM& sudoku_infile, VECTOR< VECTOR<int> >& sudoku) {
 
 	// setting temporary readers
 	std::string temp_str;
@@ -81,19 +53,46 @@ void populate_puzzle(IFSTREAM& sudoku_infile, VECTOR< VECTOR<int> >& sudoku) {
 
 
 
-// print a given sudoku puzzle to the terminal
-void print_puzzle(const VECTOR< VECTOR<int> >& sudoku) {
+// checks the integrity of the given board
+bool check_integrity(const VECTOR< VECTOR<int> > sudoku) {
 
-	// iterators
-	int row, col;
+    // loop through the board
+    for (int row=0; row<SIZE; row++) {
+
+        for (int col=0; col<SIZE; col++) {
+
+            // if a zero, continue
+            if (sudoku[row][col] == 0)
+                continue;
+
+            // first check if valid number
+            if ((sudoku[row][col] < 0) || (sudoku[row][col] > 9))
+                return false;
+
+            // Now do "check guess" with current val
+            if (!check_guess(sudoku, sudoku[row][col], row, col))
+                return false;
+
+        }
+
+    }
+
+    return true;
+
+}
+
+
+
+// print a given sudoku puzzle to the terminal
+void print_puzzle(const VECTOR< VECTOR<int> > sudoku) {
 
 	// for loop to print sudoku board
-	for (row=0; row<SIZE; row++) {
+	for (int row=0; row<SIZE; row++) {
 
-		for (col=0; col<SIZE; col++) {
+		for (int col=0; col<SIZE; col++) {
 
 			// printing the number and whitespace
-			COUT << sudoku.at(row).at(col) << " ";
+			COUT << sudoku[row][col] << " ";
 
 		}
 
@@ -108,76 +107,57 @@ void print_puzzle(const VECTOR< VECTOR<int> >& sudoku) {
 
 
 
-// updates a value in the puzzle
-void update_puzzle(VECTOR< VECTOR<int> >& sudoku, int value, long unsigned int row, long unsigned int col) {
-
-	// setting the value
-	sudoku.at(row).at(col) = value;
-
-	return;
-
-}
-
-
-
 // checks if a number can be placed in a certain spot
-bool check_guess(const VECTOR< VECTOR<int> >& sudoku, int value, long unsigned int row, long unsigned int col) {
+bool check_guess(const VECTOR< VECTOR<int> > sudoku, int value, int valRow, int valCol) {
 
 	// indexes for checking row and column
-	long unsigned int curr_row, curr_col;
+	int row, col;
 	
 	// checking row
-	for (curr_row=0; curr_row<SIZE; curr_row++) {
+	for (row=0; row<SIZE; row++) {
 
 		// making sure we're not at original placement
-		if (curr_row==row) 
+		if (row == valRow) 
             continue;
 
 		// checking that this is a valid placement
-		if (sudoku.at(curr_row).at(col) == value) 
+        if (sudoku[row][valCol] == value)
             return false;
 
 	}
 
 	// checking column
-	for (curr_col=0; curr_col<SIZE; curr_col++) {
+	for (col=0; col<SIZE; col++) {
 
 		// making sure we're not at original placement
-		if (curr_col==col) 
+		if (col == valCol) 
             continue;
 
 		// checking that this is a valid placement
-		if (sudoku.at(row).at(curr_col) == value) 
+        if (sudoku[valRow][col] == value)
             return false;
 
 	}
 
 	// finding where to start row and col for checking the boxes
-	curr_row = row - (row%3);
-	curr_col = col - (col%3);
+	int start_row = valRow - (valRow%3);
+	int start_col = valCol - (valCol%3);
 
 	// have to check 9 boxes, loop total of nine times
-	for (int i=0; i<SIZE/3; i++) {
+    for (row=start_row; row<start_row+3; row++) {
 
-		for (int j=0; j<SIZE/3; j++) {
+        for (col=start_col; col<start_col+3; col++) {
 
-			// check if this spot is the original; if it is, skip
-			if (!((curr_row == row) && (curr_col == col))) {
+			// check if this spot is the original; if it is, dont do if statement
+			if (!((row == valRow) && (col == valCol))) {
 
 				// check if this spot equals the value
-				if (sudoku.at(curr_row).at(curr_col) == value) 
+                if (sudoku[row][col] == value)
                     return false;
 
 			}
 
-			// iterate column
-			curr_col++;
-
 		}
-
-		// reset column and iterate row
-		curr_col -= 3;
-		curr_row++;
 
 	}
 	
@@ -189,7 +169,7 @@ bool check_guess(const VECTOR< VECTOR<int> >& sudoku, int value, long unsigned i
 
 
 // checks if a puzzle is complete
-bool check_puzzle(const VECTOR< VECTOR<int> >& sudoku) {
+bool check_puzzle(const VECTOR< VECTOR<int> > sudoku) {
 
 	// iterating through puzzle
 	for (int row=0; row<SIZE; row++) {
@@ -198,7 +178,7 @@ bool check_puzzle(const VECTOR< VECTOR<int> >& sudoku) {
 		for (int col=0; col<SIZE; col++) {
 
 			// if zero encountered, return false
-			if (sudoku.at(row).at(col) == 0) 
+			if (sudoku[row][col] == 0) 
                 return false;
 
 		}
@@ -242,19 +222,14 @@ bool recursive_solver(VECTOR< VECTOR<int> >& sudoku, long unsigned int row, long
 		bool guess_result = check_guess(sudoku, sentinel, row, col);
 
 		// set the sudoku board equal to the sentinel
-		update_puzzle(sudoku, sentinel, row, col);
-
-        // sleep for some microseconds
-        /* usleep(100);
-        system("clear");
-        print_puzzle(sudoku); */
+        sudoku.at(row).at(col) = sentinel;
 
 		// if both the guess and the recursive call are true
-		if (guess_result && recursive_solver(sudoku, row, col))
+		if (guess_result && recursive_solver(sudoku, row, col)) 
 			return true;
 		// if not true, put 0 back in the puzzle
-		else
-			update_puzzle(sudoku, 0, row, col);
+		else 
+            sudoku.at(row).at(col) = 0;
 		
 	}
 

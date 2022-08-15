@@ -28,15 +28,21 @@ int main(const int argc, const char *argv[]) {
     warning();
 
 	// initializing sudoku board
-	VECTOR< VECTOR<int> > sudoku;
+    VECTOR<int> vtemp(SIZE, 9);
+	VECTOR< VECTOR<int> > sudoku(SIZE, vtemp);
 
 	// filling the sudoku board
-	fill_vector(sudoku);
-	populate_puzzle(sudoku_infile, sudoku);
+	read_puzzle(sudoku_infile, sudoku);
 
 	// print puzzle
 	COUT << ENDL << "Original puzzle:" << ENDL;
 	print_puzzle(sudoku);
+
+    // checking integrity of original board
+    if (!check_integrity(sudoku)) {
+        COUT << ENDL << "Puzzle is not solvable." << ENDL << ENDL;
+        return EXIT_FAILURE;
+    }
 
 	// solve the puzzle
 	recursive_solver(sudoku, 0, 0);
